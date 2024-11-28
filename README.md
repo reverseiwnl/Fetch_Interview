@@ -29,5 +29,53 @@ Install the required Go packages by running:
 go get github.com/gofiber/fiber/v2
 go get github.com/go-resty/resty/v2
 go get github.com/stretchr/testify
+```
+
+---
 
 ## Running the API
+
+### Step 1: Compile the Code
+To compile the Go program, run:
+```bash
+go build -o app main.go
+```
+
+This will generate an executable file named `app` in the current directory.
+
+### Step 2: Run the API
+To start the API server, execute:
+```bash
+./app
+```
+
+By default, the server listens on `http://localhost:8000`. If you need to change the port, modify the `app.Listen` line in `main.go`:
+```go
+app.Listen(":<desired-port>")
+```
+
+---
+
+## Testing the API
+
+### Step 1: Run the Tests
+To run the test suite, use:
+```bash
+go test -v
+```
+
+This command will:
+1. Start the API server in a goroutine.
+2. Use **Resty** to send requests to the endpoints.
+3. Validate the responses against expected results.
+
+### Expected Output
+On successful execution, you will see output similar to:
+```plaintext
+=== RUN   TestSolution
+--- PASS: TestSolution (1.23s)
+PASS
+ok      example/fiber-api-tests   1.234s
+```
+
+---
