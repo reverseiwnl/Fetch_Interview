@@ -29,3 +29,5 @@ Install the required Go packages by running:
 go get github.com/gofiber/fiber/v2
 go get github.com/go-resty/resty/v2
 go get github.com/stretchr/testify
+
+## Running the API
