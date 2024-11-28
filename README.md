@@ -33,37 +33,48 @@ go get github.com/stretchr/testify
 
 ---
 
-## Running the API
-
-### Step 1: Compile the Code
-To compile the Go program, run:
+## Initializing Go Modules
+Run the following command to ensure all dependencies are properly installed:
 ```bash
-go build -o app routes.go
+go mod tidy
 ```
+---
 
-This will generate an executable file named `app` in the current directory.
-
-### Step 2: Run the API
-To start the API server, execute:
+## Starting the server
+To start the API server, run:
 ```bash
-./app
+go run main.go
 ```
+- The server will start at `http://localhost:8000`.
 
+## Using the API
+You can interact with the API using tools like Postman, curl, or any HTTP client. Below are examples of how to use the API endpoints.
+
+### 1. Add Transactions
+- Endpoint: POST /add
+- Request Body: { "payer": "DANNON", "points": 300, "timestamp": "2022-10-31T10:00:00Z" }
+- Example Command (Using curl): `curl -X POST http://localhost:8000/add -H "Content-Type: application/json" -d '{"payer":"DANNON","points":300,"timestamp":"2022-10-31T10:00:00Z"}'`
+### 2. Spend Points
+
+- Endpoint: POST /spend
+- Request Body: { "points": 5000 }
+- Example Command (Using curl): `curl -X POST http://localhost:8000/spend -H "Content-Type: application/json" -d '{"points":5000}'`
+### 3. Get Balance
+
+- Endpoint: GET /balance
+Example Command (Using curl): `curl -X GET http://localhost:8000/balance`
 ---
 
 ## Testing the API
-
 ### Step 1: Run the Tests
 To run the test suite, use:
 ```bash
 go test -v
 ```
-
 This command will:
 1. Start the API server in a goroutine.
 2. Use **Resty** to send requests to the endpoints.
 3. Validate the responses against expected results.
-
 ### Expected Output
 On successful execution, you will see output similar to:
 ```plaintext

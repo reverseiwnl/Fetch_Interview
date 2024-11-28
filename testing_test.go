@@ -1,23 +1,18 @@
 package main
 
 import (
+	app2 "Fetch_Interview/app"
+	"bytes"
 	"encoding/json"
-	"github.com/go-resty/resty/v2"
 	"github.com/gofiber/fiber/v2"
-	"github.com/stretchr/testify/assert"
+	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSolution(t *testing.T) {
-	go func() {
-		app := setupApp()
-		err := app.Listen(":8000")
-		if err != nil {
-			panic(err)
-		}
-	}()
-
-	client := resty.New()
+	app := app2.SetupApp()
 
 	transactions := []map[string]interface{}{
 		{"payer": "DANNON", "points": 300, "timestamp": "2022-10-31T10:00:00Z"},
@@ -28,48 +23,55 @@ func TestSolution(t *testing.T) {
 	}
 
 	for _, transaction := range transactions {
-		resp, err := client.R().
-			SetBody(transaction).
-			Post("http://localhost:8000/add")
-
+		resp, err := sendRequest(app, "POST", "/add", transaction)
 		assert.NoError(t, err)
-		assert.Equal(t, 200, resp.StatusCode(), "Failed to add transaction")
+		assert.Equal(t, 200, resp.StatusCode, "Failed to add transaction")
 	}
 
 	spendRequest := map[string]interface{}{
 		"points": 5000,
 	}
-	spendResponse, err := client.R().
-		SetBody(spendRequest).
-		Post("http://localhost:8000/spend")
-
+	resp, err := sendRequest(app, "POST", "/spend", spendRequest)
 	assert.NoError(t, err)
-	assert.Equal(t, 200, spendResponse.StatusCode(), "Failed to spend points")
+	assert.Equal(t, 200, resp.StatusCode, "Failed to spend points")
 
-	balanceResponse, err := client.R().
-		Get("http://localhost:8000/balance")
-
+	resp, err = sendRequest(app, "GET", "/balance", nil)
 	assert.NoError(t, err)
-	assert.Equal(t, 200, balanceResponse.StatusCode(), "Failed to get balance")
+	assert.Equal(t, 200, resp.StatusCode, "Failed to retrieve balance")
 
 	var balance map[string]interface{}
-	err = json.Unmarshal(balanceResponse.Body(), &balance)
+	err = json.NewDecoder(resp.Body).Decode(&balance)
 	assert.NoError(t, err, "Failed to parse balance response")
 
 	expectedBalance := map[string]interface{}{
-		"DANNON":       (float64)(1000),
-		"UNILEVER":     (float64)(0),
-		"MILLER COORS": (float64)(5300),
+		"DANNON":       float64(1000),
+		"UNILEVER":     float64(0),
+		"MILLER COORS": float64(5300),
 	}
 	assert.Equal(t, expectedBalance, balance, "Balance results mismatch")
 }
 
-func setupApp() *fiber.App {
-	app := fiber.New()
+func sendRequest(app *fiber.App, method, url string, body interface{}) (*http.Response, error) {
+	var reqBody []byte
+	var err error
 
-	app.Post("/add", addPointsHandler)
-	app.Post("/spend", spendPointsHandler)
-	app.Get("/balance", balanceHandler)
+	// Serialize the body if it's not nil
+	if body != nil {
+		reqBody, err = json.Marshal(body)
+		if err != nil {
+			return nil, err
+		}
+	}
 
-	return app
+	// Create a new HTTP request
+	req, err := http.NewRequest(method, url, bytes.NewReader(reqBody))
+	if err != nil {
+		return nil, err
+	}
+	if body != nil {
+		req.Header.Set("Content-Type", "application/json")
+	}
+
+	// Use Fiber's app.Test to send the request
+	return app.Test(req)
 }
