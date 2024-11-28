@@ -38,7 +38,7 @@ go get github.com/stretchr/testify
 ### Step 1: Compile the Code
 To compile the Go program, run:
 ```bash
-go build -o app main.go
+go build -o app routes.go
 ```
 
 This will generate an executable file named `app` in the current directory.
@@ -47,11 +47,6 @@ This will generate an executable file named `app` in the current directory.
 To start the API server, execute:
 ```bash
 ./app
-```
-
-By default, the server listens on `http://localhost:8000`. If you need to change the port, modify the `app.Listen` line in `main.go`:
-```go
-app.Listen(":<desired-port>")
 ```
 
 ---
