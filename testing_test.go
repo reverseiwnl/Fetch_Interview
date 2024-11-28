@@ -36,7 +36,6 @@ func TestSolution(t *testing.T) {
 		assert.Equal(t, 200, resp.StatusCode(), "Failed to add transaction")
 	}
 
-	// Spend points
 	spendRequest := map[string]interface{}{
 		"points": 5000,
 	}
@@ -47,14 +46,12 @@ func TestSolution(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 200, spendResponse.StatusCode(), "Failed to spend points")
 
-	// Check balance
 	balanceResponse, err := client.R().
 		Get("http://localhost:8000/balance")
 
 	assert.NoError(t, err)
 	assert.Equal(t, 200, balanceResponse.StatusCode(), "Failed to get balance")
 
-	// Parse and validate balance response
 	var balance map[string]interface{}
 	err = json.Unmarshal(balanceResponse.Body(), &balance)
 	assert.NoError(t, err, "Failed to parse balance response")
@@ -68,7 +65,6 @@ func TestSolution(t *testing.T) {
 }
 
 func setupApp() *fiber.App {
-	// Set up the app with the same routes as in routes.go
 	app := fiber.New()
 
 	app.Post("/add", addPointsHandler)
