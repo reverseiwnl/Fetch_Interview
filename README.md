@@ -1,4 +1,4 @@
-# Fiber API with Go
+# Fetch API Coding Assessment with Go
 
 ## Project Overview
 This project implements a simple REST API using **Fiber**, a fast web framework for Go. The API allows you to:
@@ -7,7 +7,10 @@ This project implements a simple REST API using **Fiber**, a fast web framework 
 - Check the current balance of points by payer.
 
 The repository includes:
-- The main API code (`main.go`).
+- The API router code (`routes.go`).
+- The API handler code (`handlers.go`).
+- The Sort interface (`transaction_sort.go`).
+- A summary of the project (`summary.txt`).
 - A test suite (`testing_test.go`) to validate the API's behavior using **Resty** and Go's built-in testing framework.
 
 ---
