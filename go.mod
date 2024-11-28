@@ -1,4 +1,4 @@
-module Fetch_Interview
+module main
 
 go 1.23.3
 

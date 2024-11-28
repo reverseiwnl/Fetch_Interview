@@ -1,4 +1,4 @@
-package Fetch_Interview
+package main
 
 import "time"
 
