@@ -38,7 +38,7 @@ go get github.com/stretchr/testify
 ### Step 1: Compile the Code
 To compile the Go program, run:
 ```bash
-go build -o app routes.go
+go build -o app
 ```
 
 This will generate an executable file named `app` in the current directory.
