@@ -1,0 +1,11 @@
+1. Why did you choose the tools, libraries, and language you used for the coding exercise?
+    I have previous experience creating a REST API during my previous internship. I used Go, Fiber, and Resty during my
+    time there, and I was able to apply the things I learned during my internship to this coding exercise.
+2. What are the advantages and disadvantages of your solution?
+    To be completely honest, I don't know any other method of solving this solution and I only implemented the way I
+    knew how to do. I don't think I know enough to say how my solution was advantageous or disadvantageous. I do think
+    method of figuring out which payer to take away points from is pretty well coded.
+3. What has been a favorite school/personal project thus far? What about it that challenged you?
+    Almost all of my projects from Data Structures and Algorithms were very fun and I enjoyed being challenged by them.
+    Staying up at night and completing Algorithms projects were so satisfying when I got all the testers to pass. I like
+    being challenged to think in new ways and problem solving to make code more efficient or easier to read.
