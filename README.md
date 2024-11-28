@@ -85,3 +85,18 @@ ok      example/fiber-api-tests   1.234s
 ```
 
 ---
+
+## Troubleshooting
+### Common Issues and Fixes
+1. `go: command not found`
+- Ensure Go is properly installed and added to your system's PATH. Run go version to verify.
+
+2. `module not found` or `cannot import errors`
+- Run `go mod tidy` to clean up dependencies and resolve any missing imports.
+
+3. Port Already in Use
+- If the server fails to start because port `8000` is already in use, try running the server on a different port by modifying `app.Listen(":8000")` in `main.go`.
+
+4. Tests Fail
+- Ensure you have the latest dependencies by running `go mod tidy`.
+---

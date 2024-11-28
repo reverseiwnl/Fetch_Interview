@@ -5,10 +5,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/gofiber/fiber/v2"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestSolution(t *testing.T) {
@@ -55,7 +54,6 @@ func sendRequest(app *fiber.App, method, url string, body interface{}) (*http.Re
 	var reqBody []byte
 	var err error
 
-	// Serialize the body if it's not nil
 	if body != nil {
 		reqBody, err = json.Marshal(body)
 		if err != nil {
@@ -63,7 +61,6 @@ func sendRequest(app *fiber.App, method, url string, body interface{}) (*http.Re
 		}
 	}
 
-	// Create a new HTTP request
 	req, err := http.NewRequest(method, url, bytes.NewReader(reqBody))
 	if err != nil {
 		return nil, err
@@ -72,6 +69,5 @@ func sendRequest(app *fiber.App, method, url string, body interface{}) (*http.Re
 		req.Header.Set("Content-Type", "application/json")
 	}
 
-	// Use Fiber's app.Test to send the request
 	return app.Test(req)
 }
